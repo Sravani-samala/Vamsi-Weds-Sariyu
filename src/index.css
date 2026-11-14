@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@theme {
+  --font-cormorant: 'Cormorant Garamond', Georgia, serif;
+  --font-bodoni: 'Italiana', Georgia, serif;
+  --font-jost: 'Jost', sans-serif;
+  --font-manrope: 'Manrope', sans-serif;
+  --font-script: 'Great Vibes', cursive;
+  --font-telugu: 'Ponnala', 'Noto Serif Telugu', serif;
+  --font-telugu-heading: 'Ponnala', 'Ramabhadra', sans-serif;
+
+  --color-maroon: #58111A;
+  --color-maroon-dark: #3E0B12;
+  --color-maroon-light: #721A25;
+  --color-gold: #C5A064;
+  --color-gold-light: #ECC880;
+  --color-gold-dark: #9A7534;
+  --color-cream: #FAF7F2;
+  --color-pure-white: #FFFFFF;
+}
+
+/* Luxury Maroon, Gold, White Styling */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #ECC880 0%, #C5A064 50%, #9B7637 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-border {
+  border-color: #C5A064;
+}
+
+.gold-shadow {
+  box-shadow: 0 10px 30px rgba(197, 160, 100, 0.18);
+}
+
+.maroon-gradient {
+  background: linear-gradient(145deg, #58111A 0%, #3E0B12 100%);
+}
+
+/* Gentle romantic floating animation for bride-groom cutout */
+@keyframes romanticFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(0.4deg);
+  }
+}
+
+.animate-romantic-float {
+  animation: romanticFloat 4.5s ease-in-out infinite;
+}
+
+/* Soft pulse glow */
+@keyframes softGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(197, 160, 100, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(236, 200, 128, 0.7);
+  }
+}
+
+.animate-glow {
+  animation: softGlow 2.8s ease-in-out infinite;
+}
+
+/* Hide scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #3E0B12;
+}
+::-webkit-scrollbar-thumb {
+  background: #C5A064;
+  border-radius: 3px;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Sariyu Weds Vamshi - 3D South Indian Wedding Invitation",
+  "description": "An immersive 3D South Indian wedding invitation experience celebrating the divine union of Sariyu and Vamshi with authentic temple architecture, realistic 3D characters, and interactive ceremony storytelling.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
