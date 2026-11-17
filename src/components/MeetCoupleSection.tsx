@@ -241,9 +241,9 @@ export const MeetCoupleSection: React.FC<MeetCoupleSectionProps> = ({ data }) =>
       <section
         id="groom"
         ref={groomSectionRef}
-        className="relative min-h-screen flex items-center justify-center py-20 lg:py-28 px-4 sm:px-6 md:px-12 border-b border-[#C5A064]/20"
+        className="relative min-h-screen flex items-center justify-center py-20 lg:py-28 px-4 sm:px-6 md:px-12 border-b border-[#C5A064]/20 overflow-hidden"
       >
-        <div className="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className="relative z-10 max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left / Editorial Typography */}
           <div
             ref={groomTextWrapRef}
@@ -339,9 +339,9 @@ export const MeetCoupleSection: React.FC<MeetCoupleSectionProps> = ({ data }) =>
       <section
         id="bride"
         ref={brideSectionRef}
-        className="relative min-h-screen flex items-center justify-center py-20 lg:py-28 px-4 sm:px-6 md:px-12 bg-[#F6EFE7]"
+        className="relative min-h-screen flex items-center justify-center py-20 lg:py-28 px-4 sm:px-6 md:px-12 bg-[#F6EFE7] overflow-hidden"
       >
-        <div className="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className="relative z-10 max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left / Bride Photograph Slide-in from Left with Clip-path and Gold Frame */}
           <div className="lg:col-span-6 flex justify-center lg:justify-start order-1">
             <div

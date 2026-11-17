@@ -22,6 +22,7 @@ import { MuhurtamSection } from './components/MuhurtamSection';
 import { VenueSection } from './components/VenueSection';
 import { ThankYouSection } from './components/ThankYouSection';
 import { ModelInspectorModal } from './components/ModelInspectorModal';
+import { WeddingAudioPlayer } from './components/WeddingAudioPlayer';
 
 export default function App() {
   const lenisRef = useLenis();
@@ -93,8 +94,9 @@ export default function App() {
   };
 
   const handleEnterWedding = () => {
-    // 1. Immediately unlock scrolling
+    // 1. Immediately unlock scrolling & trigger background wedding song if awaiting gesture
     setIsUnlocked(true);
+    window.dispatchEvent(new CustomEvent('wedding:enter'));
 
     // 2. Resume Lenis & recalculate dimensions
     if (lenisRef.current) {
@@ -194,6 +196,8 @@ export default function App() {
         data={weddingData}
         onUpdateData={handleUpdateData}
       />
+      {/* Background South Indian Wedding Song & Mute Toggle */}
+      <WeddingAudioPlayer />
     </div>
   );
 }

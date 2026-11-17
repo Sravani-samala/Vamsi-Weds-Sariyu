@@ -28,6 +28,9 @@ export const TempleHeroSection: React.FC<TempleHeroSectionProps> = ({
     if (isEntering) return;
     setIsEntering(true);
 
+    // Synchronously notify audio player inside the user gesture so music plays immediately upon Tap to Enter
+    window.dispatchEvent(new CustomEvent('wedding:enter'));
+
     // 1. Text & button smoothly fade out
     if (buttonRef.current && textGroupRef.current) {
       gsap.to([buttonRef.current, textGroupRef.current], {
@@ -48,7 +51,7 @@ export const TempleHeroSection: React.FC<TempleHeroSectionProps> = ({
       });
     }
 
-    // 3. Trigger entrance scroll smoothly after initial push-in starts (500ms delay)
+    // 3. Trigger entrance scroll smoothly after initial push-in starts (450ms delay)
     // This gives an immediate, cinematic sensation of flying forward through the temple gateway
     setTimeout(() => {
       onEnter();

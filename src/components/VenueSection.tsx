@@ -138,7 +138,7 @@ export const VenueSection: React.FC<VenueSectionProps> = ({ data }) => {
       ref={sectionRef}
       className="relative w-full py-20 sm:py-28 lg:py-32 px-5 sm:px-8 lg:px-12 bg-[#F8F0E5] text-[#38251D] border-t border-[#B99455]/30 overflow-x-clip select-none"
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="relative z-10 max-w-6xl mx-auto">
         {/* Editorial Layout: Architectural Split on Desktop, Clean Stack on Mobile */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-stretch">
           {/* Left: Mandapam / Venue Photograph */}

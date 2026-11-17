@@ -88,7 +88,7 @@ export const HowWeMetSection: React.FC<HowWeMetSectionProps> = ({
         },
       });
 
-      // 1. Text fades out smoothly
+      // 1. Text fades out smoothly as video expands
       tl.to(
         introTextRef.current,
         {
@@ -98,9 +98,10 @@ export const HowWeMetSection: React.FC<HowWeMetSectionProps> = ({
           ease: 'power2.in',
         },
         0
-      )
+      );
+
       // 2. Pill video smoothly expands into exact viewport dimensions without any unit jumps
-      .to(
+      tl.to(
         pillContainerRef.current,
         {
           width: () => window.innerWidth,

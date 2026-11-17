@@ -3,6 +3,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { WeddingData } from '../data/weddingData';
 import { WEDDING_SECTION_CONFIG } from '../config/weddingConfig';
+import { SaveTheDateScratchCard } from './SaveTheDateScratchCard';
+import { RosePetalsConfetti } from './RosePetalsConfetti';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -64,6 +66,7 @@ export const MuhurtamSection: React.FC<MuhurtamSectionProps> = () => {
 
   const [openingImageError, setOpeningImageError] = useState(false);
   const [jilakaraImageError, setJilakaraImageError] = useState(false);
+  const [isDateRevealed, setIsDateRevealed] = useState(false);
 
   const [countdown, setCountdown] = useState<CountdownTime>(() =>
     getISTCountdown(
@@ -87,6 +90,31 @@ export const MuhurtamSection: React.FC<MuhurtamSectionProps> = () => {
     const intervalId = window.setInterval(updateCountdown, 1000);
     return () => window.clearInterval(intervalId);
   }, []);
+
+  // Animate countdown numbers in smoothly once Save the Date scratch card is revealed
+  useEffect(() => {
+    if (!isDateRevealed || !countdownBlockRef.current) return;
+
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const units = countdownBlockRef.current.querySelectorAll('.countdown-unit');
+    if (units.length > 0) {
+      gsap.fromTo(
+        units,
+        { opacity: 0, y: 18 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          stagger: 0.08,
+          ease: 'power3.out',
+        }
+      );
+    }
+  }, [isDateRevealed]);
 
   // Scroll-driven editorial reveal animations (Desktop & Mobile isolated via matchMedia)
   useEffect(() => {
@@ -142,65 +170,35 @@ export const MuhurtamSection: React.FC<MuhurtamSectionProps> = () => {
         }
       }
 
-      // 2. Save The Date — Sequential Label -> Number Reveal -> Year Reveal
+      // 2. Save The Date Scratch Card Block Entrance
       if (saveDateBlockRef.current) {
-        const label = saveDateBlockRef.current.querySelector('.std-label');
-        const dateDigits = saveDateBlockRef.current.querySelectorAll('.std-digit');
-        const yearEl = saveDateBlockRef.current.querySelector('.std-year');
-
-        const stdTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: saveDateBlockRef.current,
-            start: isDesktop ? 'top 76%' : 'top 84%',
-            toggleActions: 'play none none reverse',
-          },
-        });
-
-        if (label) {
-          stdTl.fromTo(
-            label,
-            { opacity: 0, y: 18 },
-            { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out' }
-          );
-        }
-
-        if (dateDigits.length > 0) {
-          stdTl.fromTo(
-            dateDigits,
-            { opacity: 0, y: isDesktop ? 42 : 28, clipPath: 'inset(0% 0% 100% 0%)' },
-            {
-              opacity: 1,
-              y: 0,
-              clipPath: 'inset(0% 0% 0% 0%)',
-              duration: 0.85,
-              stagger: 0.12,
-              ease: 'power3.out',
-            },
-            '-=0.25'
-          );
-        }
-
-        if (yearEl) {
-          stdTl.fromTo(
-            yearEl,
-            { opacity: 0, y: 18 },
-            { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' },
-            '-=0.3'
-          );
-        }
-      }
-
-      // 3. Countdown Entrance
-      if (countdownBlockRef.current) {
-        const units = countdownBlockRef.current.querySelectorAll('.countdown-unit');
         gsap.fromTo(
-          units,
-          { opacity: 0, y: 22 },
+          saveDateBlockRef.current,
+          { opacity: 0, y: isDesktop ? 30 : 20, scale: 0.98 },
           {
             opacity: 1,
             y: 0,
-            duration: 0.7,
-            stagger: 0.08,
+            scale: 1,
+            duration: 0.85,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: saveDateBlockRef.current,
+              start: isDesktop ? 'top 78%' : 'top 86%',
+              toggleActions: 'play none none reverse',
+            },
+          }
+        );
+      }
+
+      // 3. Countdown Container Entrance
+      if (countdownBlockRef.current) {
+        gsap.fromTo(
+          countdownBlockRef.current,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.75,
             ease: 'power2.out',
             scrollTrigger: {
               trigger: countdownBlockRef.current,
@@ -292,6 +290,8 @@ export const MuhurtamSection: React.FC<MuhurtamSectionProps> = () => {
       ref={rootRef}
       className="relative w-full bg-[#F8F0E5] text-[#38251D] overflow-x-clip select-none"
     >
+      {/* Celebratory Left & Right Screen Rose Petals Confetti upon Scratch Reveal */}
+      <RosePetalsConfetti active={isDateRevealed} />
       {/* =================================================================== */}
       {/* 1. SECTION OPENING — THE SACRED AUSPICIOUS MUHURTAM                 */}
       {/* =================================================================== */}
@@ -371,9 +371,9 @@ export const MuhurtamSection: React.FC<MuhurtamSectionProps> = () => {
       </div>
 
       {/* =================================================================== */}
-      {/* 2. SAVE THE DATE — ANIMATED DATE REVEAL & 3. LIVE COUNTDOWN         */}
+      {/* 2. SAVE THE DATE — SCRATCH CARD & 3. LIVE COUNTDOWN                 */}
       {/* =================================================================== */}
-      <div className="relative w-full py-20 sm:py-28 lg:py-32 px-6 bg-[#F8F0E5]">
+      <div className="relative w-full py-20 sm:py-28 lg:py-32 px-6 bg-[#F8F0E5] overflow-hidden">
         {/* Subtle Kanchipuram Silk Warm Glow */}
         <div
           aria-hidden="true"
@@ -381,42 +381,52 @@ export const MuhurtamSection: React.FC<MuhurtamSectionProps> = () => {
         />
 
         <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center text-center">
-          {/* Save The Date Reveal Block */}
-          <div ref={saveDateBlockRef} className="flex flex-col items-center">
-            <p className="std-label font-jost text-xs sm:text-sm uppercase tracking-[0.42em] text-[#511E2A] font-semibold mb-6 sm:mb-8">
-              SAVE THE DATE
-            </p>
-
-            {/* 26 NOV */}
-            <div className="flex flex-wrap items-baseline justify-center gap-4 sm:gap-7 leading-none">
-              <span className="std-digit font-bodoni text-7xl sm:text-8xl md:text-[7.5rem] lg:text-[8.75rem] text-[#511E2A] font-medium tabular-nums tracking-tight">
-                {WEDDING_SECTION_CONFIG.saveTheDateDisplay.day}
-              </span>
-              <span className="std-digit font-bodoni text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] text-[#B99455] font-normal tracking-[0.14em] uppercase">
-                {WEDDING_SECTION_CONFIG.saveTheDateDisplay.month}
-              </span>
-            </div>
-
-            {/* 2026 Underneath */}
-            <div className="std-year mt-3 sm:mt-4 flex flex-col items-center">
-              <span className="font-bodoni text-3xl sm:text-4xl md:text-5xl text-[#38251D] tracking-[0.38em] pl-[0.38em] tabular-nums font-normal">
-                {WEDDING_SECTION_CONFIG.saveTheDateDisplay.year}
-              </span>
-              <div className="mt-8 flex items-center gap-3">
-                <span className="w-16 h-[1px] bg-[#B99455]/70" />
-                <span className="w-1.5 h-1.5 rotate-45 bg-[#2F4F3A]" />
-                <span className="w-16 h-[1px] bg-[#B99455]/70" />
-              </div>
-            </div>
+          {/* Save The Date Interactive Scratch Card */}
+          <div ref={saveDateBlockRef} className="w-full flex flex-col items-center">
+            <SaveTheDateScratchCard
+              day={WEDDING_SECTION_CONFIG.saveTheDateDisplay.day}
+              month={WEDDING_SECTION_CONFIG.saveTheDateDisplay.month}
+              year={WEDDING_SECTION_CONFIG.saveTheDateDisplay.year}
+              isRevealed={isDateRevealed}
+              onReveal={() => setIsDateRevealed(true)}
+            />
           </div>
 
-          {/* 3. Live Real-Time Wedding Countdown (Asia/Kolkata) */}
+          {/* 3. Live Real-Time Wedding Countdown (Asia/Kolkata) — Revealed after Scratching */}
           <div
             ref={countdownBlockRef}
-            className="w-full max-w-3xl mt-14 sm:mt-16 pt-12 border-t border-[#B99455]/35"
+            className="w-full max-w-3xl mt-12 sm:mt-14 pt-10 border-t border-[#B99455]/35 relative"
           >
-            {countdown.isArrived ? (
-              <div className="countdown-unit py-4">
+            {!isDateRevealed ? (
+              <div className="relative py-2">
+                <div
+                  aria-hidden="true"
+                  className="grid grid-cols-2 sm:grid-cols-4 gap-y-8 gap-x-4 sm:gap-x-0 opacity-25 blur-[2px] select-none pointer-events-none"
+                >
+                  {['DAYS', 'HOURS', 'MINUTES', 'SECONDS'].map((label, idx) => (
+                    <div
+                      key={label}
+                      className={`flex flex-col items-center justify-center px-3 ${
+                        idx < 3 ? 'sm:border-r sm:border-[#B99455]/30' : ''
+                      }`}
+                    >
+                      <span className="font-bodoni text-4xl sm:text-5xl md:text-6xl text-[#511E2A] tabular-nums leading-none font-normal">
+                        ••
+                      </span>
+                      <span className="font-jost text-[11px] sm:text-xs uppercase tracking-[0.28em] text-[#B99455] font-semibold mt-3">
+                        {label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center px-4">
+                  <p className="font-cormorant italic text-lg sm:text-xl text-[#511E2A] bg-[#F8F0E5]/90 border border-[#B99455]/45 px-5 py-2.5 shadow-xs">
+                    Scratch the Save the Date card above to reveal the countdown
+                  </p>
+                </div>
+              </div>
+            ) : countdown.isArrived ? (
+              <div className="countdown-unit py-4 animate-[fadeIn_0.6s_ease-out]">
                 <p className="font-bodoni text-3xl sm:text-4xl md:text-5xl text-[#511E2A] tracking-[0.16em] uppercase">
                   THE DAY HAS ARRIVED
                 </p>
