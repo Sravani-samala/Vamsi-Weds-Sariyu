@@ -89,7 +89,7 @@ export const TempleHeroSection: React.FC<TempleHeroSectionProps> = ({
       </div>
 
       {/* 2. Bottom Content: Positioned at bottom with exactly 30px space */}
-      <div className="relative z-20 flex flex-col items-center text-center px-4 max-w-4xl mx-auto w-full">
+      <div className="relative z-20 flex flex-col items-center text-center px-4 max-w-4xl mx-auto w-full sm:bottom-0 bottom-[60px]">
         <div ref={textGroupRef} className="space-y-2.5 mb-3.5">
           {/* Subtle sacred invocation pill */}
           <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white/90 backdrop-blur-md border border-[#C5A064]/50 shadow-xs mb-1">
