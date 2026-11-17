@@ -76,7 +76,7 @@ export const TempleHeroSection: React.FC<TempleHeroSectionProps> = ({
     <section
       id="cover"
       ref={containerRef}
-      className="relative h-screen w-full overflow-hidden select-none flex flex-col items-center justify-end pb-[30px] bg-[#FAF7F2]"
+      className="relative min-h-screen min-h-[100dvh] w-full overflow-hidden select-none flex flex-col items-center justify-end pb-6 sm:pb-[30px] bg-[#FAF7F2]"
     >
       {/* 1. Full-screen Cinematic Temple Background (Pure image, no dark maroon overlay) */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">

@@ -138,16 +138,16 @@ export const WeddingAudioPlayer: React.FC = () => {
           {isPlaying ? (
             <>
               <Volume2 className="w-4 h-4 text-[#ECC880] shrink-0" />
-              <span className="font-jost text-[11px] uppercase tracking-[0.2em] font-medium">
+              {/* <span className="font-jost text-[11px] uppercase tracking-[0.2em] font-medium">
                 Music On
-              </span>
+              </span> */}
             </>
           ) : (
             <>
               <VolumeX className="w-4 h-4 text-[#ECC880]/75 shrink-0" />
-              <span className="font-jost text-[11px] uppercase tracking-[0.2em] font-medium">
+              {/* <span className="font-jost text-[11px] uppercase tracking-[0.2em] font-medium">
                 Play Song
-              </span>
+              </span> */}
             </>
           )}
         </button>
